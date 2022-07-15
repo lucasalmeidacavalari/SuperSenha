@@ -17,11 +17,28 @@ class PasswordsViewController: UIViewController {
     var useCapitalLetters: Bool!
     var useSpecialCharacters: Bool!
     
+    var passwordGenerate: PasswordGenerator!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Total de Senha: \(numberOfPasswords)"
+        passwordGenerate = PasswordGenerator(numberOfCharacters: numerOfCharacters, useLetters: useLetters, useNumbers: useNumbers, useCapitalLetters: useCapitalLetters, useSpecialCharacters: useSpecialCharacters)
+        
+        generatePasswords()
+    }
+    
+    func generatePasswords(){
+        tvPasswords.scrollRangeToVisible(NSRange(location: 0, length: 0))
+        tvPasswords.text = ""
+        let passwords = passwordGenerate.generate(total: numberOfPasswords)
+        for password in passwords {
+            tvPasswords.text.append(password + "\n\n")
+        }
     }
     
     @IBAction func generate(_ sender: Any) {
+        generatePasswords()
     }
     
 }
